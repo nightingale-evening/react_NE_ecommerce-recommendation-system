@@ -6,6 +6,7 @@ const Product = ({ item }) => {
 
     const handleOnClick = () => {
         setLocalStorage('ProductDetail', JSON.stringify(item));
+        setLocalStorage('RecommendedProduct', JSON.stringify(item['Product Name']))
         navigate(`/product/${item['Product Id']}`, { replace: true });
     }
     return (

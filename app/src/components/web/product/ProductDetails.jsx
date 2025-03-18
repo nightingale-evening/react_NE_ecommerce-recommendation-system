@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
-import { getLocalStorage, setLocalStorage } from '../../../util/cmnFunction/localStorage';
+import { getLocalStorage } from '../../../util/cmnFunction/localStorage';
 import RecommendedProduct from '../../../pages/product/RecommendedProduct';
 import { Header } from '../home';
 
@@ -11,11 +11,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         const productDetail = getLocalStorage('ProductDetail');
-        setLocalStorage('RecommendedProduct', JSON.stringify(productDetail['Product Name']))
-        setProduct(productDetail);
-        if (typeof productId !== 'string' && productDetail['Product Id'] !== productId) {
-            navigate(`/home`, { replace: true });
-        }
+        typeof productId !== 'string' && productDetail['Product Id'] !== productId ? navigate(`/home`, { replace: true }) : setProduct(productDetail);
     }, [productId]);
 
     return (
