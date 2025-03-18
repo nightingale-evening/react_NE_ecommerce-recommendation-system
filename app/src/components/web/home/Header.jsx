@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from 'react-router'
 import useGlobalContext from "../../../state_management/ContextAPI/GlobalContextProvider";
 import { useEffect } from "react";
+import { handleProductSearch } from "../../../util/cmnFunction/search";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -9,18 +10,10 @@ const Header = () => {
     const [searchValue, setSearchValue] = useState('');
 
     const handleSearch = () => {
-        if (searchValue.length === 0) {
-            alert("Expecting search products!")
-            return false;
-        }
-        const searchWords = searchValue.toLowerCase().split(' '); // Split input by spaces
-        const matchedProducts = recommendedProductsList.filter((product) => {
-            const products = product['Product Tags'].toLowerCase();
-            return searchWords.every(word => products.includes(word));
-        });
-
-        setSearchProductsList(matchedProducts);
-        navigate(`/productSearch`, { replace: true });
+        const returnValue = handleProductSearch(searchValue, navigate,
+            recommendedProductsList,
+            setSearchProductsList)
+        !returnValue ? setSearchValue('') : "";
     }
 
     useEffect(() => {
@@ -43,7 +36,7 @@ const Header = () => {
                     <span className="ml-3 text-xl">Alita Ecommerce</span>
                 </Link>
                 <div className="md:w-full xl:w-1/2 w-2/4 md:ml-auto flex flex-wrap items-center text-base justify-center">
-                    <input type="search" id="search-product" name="search-product" placeholder="Search Product"
+                    <input type="search" id="search-product" name="search-product" placeholder="Search Product!"
                         className="w-full bg-gray-800 rounded bg-opacity-40 border border-gray-700 focus:ring-2 focus:ring-indigo-900 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}

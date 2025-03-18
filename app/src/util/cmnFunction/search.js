@@ -1,31 +1,24 @@
-import { useEffect } from "react";
-import useGlobalContext from "../../state_management/ContextAPI/GlobalContextProvider";
-//import { useNavigate } from "react-router";
+export const handleProductSearch = (
+    searchValue,
+    navigate,
+    recommendedProductsList,
+    setSearchProductsList
+) => {
+    if (searchValue.length === 0) {
+        alert("Expecting search products!");
+        return false;
+    }
+    const searchWords = searchValue.toLowerCase().split(" "); // Split input by spaces
+    const matchedProducts = recommendedProductsList.filter((product) => {
+        const products = product["Product Tags"].toLowerCase();
+        return searchWords.every((word) => products.includes(word));
+    });
 
-export const useHandleProductSearch = (searchValues) => {
-  //const navigate = useNavigate();
-  const { productsList, setSearchProductsList } = useGlobalContext();
-
-  //useEffect(() => {
-  //if (!searchValues) return false;
-  if (searchValues === "Search Product") return false;
-  if (searchValues.trim().length === 0) {
-    alert("Expecting search products!");
-    return;
-  }
-
-  const searchWords = searchValues.toString().toLowerCase().split(" ");
-  const matchedProducts = productsList.filter((product) => {
-    const productTags = product["Product Tags"].toLowerCase();
-    return searchWords.every((word) => productTags.includes(word));
-  });
-
-  console.log(matchedProducts);
-
-  if (matchedProducts.length > 0) {
-    setSearchProductsList(matchedProducts);
-    // navigate(`/productSearch`, { replace: true });
-    return searchValues;
-  }
-  //}, [searchValues, productsList, setSearchProductsList]);
+    if (matchedProducts.length > 0) {
+        setSearchProductsList(matchedProducts);
+        navigate(`/productSearch`, { replace: true });
+    } else {
+        alert("Sorry we did not found anything related to your search!!");
+        return false;
+    }
 };

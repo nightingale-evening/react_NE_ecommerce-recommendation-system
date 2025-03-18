@@ -22,13 +22,11 @@ const ProductSearch = () => {
                             <div key={index} className="lg:w-1/4 md:w-1/2 p-4 w-full">
                                 <Product item={item} />
                             </div>))
-                        : searchProductsList?.length === 0 ?
-                            <div className="p-4 w-full text-center"> Sorry we did not foun anything related to your search!</div>
-                            : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => (
-                                <div key={index}
-                                    className="lg:w-1/4 md:w-1/2 p-4 m-2 w-full h-50 bg-slate-200 animate-pulse rounded-sm transition-all"
-                                ></div>
-                            ))}
+                        : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => (
+                            <div key={index}
+                                className="lg:w-1/4 md:w-1/2 p-4 m-2 w-full h-50 bg-slate-200 animate-pulse rounded-sm transition-all"
+                            ></div>
+                        ))}
                 </div>
             </div>
         </section>

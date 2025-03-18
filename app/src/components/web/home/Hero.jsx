@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router'
 import useGlobalContext from "../../../state_management/ContextAPI/GlobalContextProvider";
+import { handleProductSearch } from "../../../util/cmnFunction/search";
 
 const Hero = () => {
     const navigate = useNavigate();
@@ -8,22 +9,10 @@ const Hero = () => {
     const [searchValue, setSearchValue] = useState('');
 
     const handleSearch = () => {
-        if (searchValue.length === 0) {
-            alert("Expecting search products!")
-            return false;
-        }
-        const searchWords = searchValue.toLowerCase().split(' '); // Split input by spaces
-        const matchedProducts = recommendedProductsList.filter((product) => {
-            const products = product['Product Tags'].toLowerCase();
-            return searchWords.every(word => products.includes(word));
-        });
-
-        if (matchedProducts.length > 0) {
-            setSearchProductsList(matchedProducts);
-            navigate(`/productSearch`, { replace: true });
-        } else {
-            return false
-        }
+        const returnValue = handleProductSearch(searchValue, navigate,
+            recommendedProductsList,
+            setSearchProductsList)
+        !returnValue ? setSearchValue('') : "";
     }
 
     return (
